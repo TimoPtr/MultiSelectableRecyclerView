@@ -27,7 +27,7 @@
             android:adjustViewBounds="false"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
-            app:drawable="@{viewModel.type == Type.BIKE ? @drawable/ic_car : @drawable/ic_bike}"
+            app:drawable="@{viewModel.type == Type.BIKE ? @drawable/ic_bike : @drawable/ic_car}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
