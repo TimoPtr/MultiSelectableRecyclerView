@@ -1,6 +1,6 @@
 # MultiSelectableList
 
-- This sample use the android databinding system.
+- This sample use the android databinding system, padding library and DiffUtils.
 - It's fully code in Kotlin.
 - It's follow the MVVM pattern
 - For now it's just a project for fun (no test, no support, no comment)

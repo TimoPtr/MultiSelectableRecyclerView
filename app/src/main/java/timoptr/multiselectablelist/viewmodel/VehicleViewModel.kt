@@ -1,7 +1,7 @@
 package timoptr.multiselectablelist.viewmodel
 
 import android.databinding.ObservableBoolean
-import com.bioserenity.wemu.utils.SelectableItem
+import timoptr.multiselectablelist.util.SelectableItem
 
 /**
  * Created by timothynibeaudeau on 03/12/2017.

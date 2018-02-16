@@ -22,29 +22,31 @@ class DemoActivity : AppCompatActivity() {
     }
 
     private fun initListSingle() {
-        listSingle.adapter = VehicleAdapter(SelectableAdapter.Selection.SINGLE)
+        val adapter = VehicleAdapter(SelectableAdapter.Selection.SINGLE)
+        listSingle.adapter = adapter
         listSingle.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listSingle.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        with(listSingle.adapter as VehicleAdapter) {
-            addVehicle(VehicleViewModel("3008"))
-            addVehicle(VehicleViewModel("C3"))
-            addVehicle(VehicleViewModel("Focus"))
-            addVehicle(VehicleViewModel("A1"))
-            addVehicle(VehicleViewModel("DS4"))
-            addVehicle(VehicleViewModel("Clio"))
-        }
+        adapter.setList(arrayListOf(
+                VehicleViewModel("3008"),
+                VehicleViewModel("C3"),
+                VehicleViewModel("Focus"),
+                VehicleViewModel("A1"),
+                VehicleViewModel("DS4"),
+                VehicleViewModel("Clio")
+        ))
     }
 
     private fun initListMulti() {
-        listMulti.adapter = VehicleAdapter(SelectableAdapter.Selection.MULTIPLE)
+        val adapter = VehicleAdapter(SelectableAdapter.Selection.MULTIPLE)
+        listMulti.adapter = adapter
         listMulti.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listMulti.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        with(listMulti.adapter as VehicleAdapter) {
-            addVehicle(VehicleViewModel("R1", VehicleViewModel.Type.BIKE))
-            addVehicle(VehicleViewModel("Bandit", VehicleViewModel.Type.BIKE))
-            addVehicle(VehicleViewModel("Z1000", VehicleViewModel.Type.BIKE))
-            addVehicle(VehicleViewModel("Speed triple", VehicleViewModel.Type.BIKE))
-            addVehicle(VehicleViewModel("MT07", VehicleViewModel.Type.BIKE))
-        }
+        adapter.setList(arrayListOf(
+                VehicleViewModel("R1", VehicleViewModel.Type.BIKE),
+                VehicleViewModel("Bandit", VehicleViewModel.Type.BIKE),
+                VehicleViewModel("Z1000", VehicleViewModel.Type.BIKE),
+                VehicleViewModel("Speed triple", VehicleViewModel.Type.BIKE),
+                VehicleViewModel("MT07", VehicleViewModel.Type.BIKE)
+        ))
     }
 }
