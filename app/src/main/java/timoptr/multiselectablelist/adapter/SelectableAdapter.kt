@@ -1,10 +1,11 @@
 package timoptr.multiselectablelist.adapter
 
-import android.databinding.ViewDataBinding
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.recyclerview.extensions.DiffCallback
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 import timoptr.multiselectablelist.util.OnItemSelectedListener
 import timoptr.multiselectablelist.util.SelectableItem
 import timoptr.multiselectablelist.BR
@@ -45,7 +46,7 @@ override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectableVie
 }
  *
  */
-abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.SelectableViewHolder>(diffCallback: DiffCallback<V> = object : DiffCallback<V>() {
+abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.SelectableViewHolder>(diffCallback: DiffUtil.ItemCallback<V> = object : DiffUtil.ItemCallback<V>() {
     override fun areItemsTheSame(oldItem: V, newItem: V): Boolean =
             oldItem == newItem
 

@@ -1,6 +1,7 @@
 package timoptr.multiselectablelist.util
 
-import android.databinding.ObservableBoolean
+import androidx.databinding.ObservableBoolean
+
 
 /**
  * Created by timoptr on 01/12/2017.

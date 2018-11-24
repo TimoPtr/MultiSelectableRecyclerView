@@ -1,18 +1,19 @@
 package timoptr.multiselectablelist.adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.support.v7.recyclerview.extensions.DiffCallback
-import android.support.v7.widget.LinearLayoutManager
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import timoptr.multiselectablelist.R
 import timoptr.multiselectablelist.viewmodel.VehicleViewModel
 
 /**
  * Created by timoptr on 03/12/2017.
  */
-class VehicleAdapter(selectionMode: Selection) : SelectableAdapter<VehicleViewModel, SelectableAdapter.SelectableViewHolderBinding>(object :DiffCallback<VehicleViewModel>() {
+class VehicleAdapter(selectionMode: Selection) : SelectableAdapter<VehicleViewModel, SelectableAdapter.SelectableViewHolderBinding>(object :DiffUtil.ItemCallback<VehicleViewModel>() {
     override fun areItemsTheSame(oldItem: VehicleViewModel, newItem: VehicleViewModel): Boolean =
             oldItem == newItem
 
@@ -20,11 +21,10 @@ class VehicleAdapter(selectionMode: Selection) : SelectableAdapter<VehicleViewMo
     override fun areContentsTheSame(oldItem: VehicleViewModel, newItem: VehicleViewModel): Boolean =
             oldItem.name == newItem.name && oldItem.type == newItem.type
 
-},selectionMode) {
+}, selectionMode) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectableViewHolderBinding =
-            SelectableViewHolderBinding(DataBindingUtil.bind(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_vehicle, parent, false))!!)
+            SelectableViewHolderBinding(DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context), R.layout.item_vehicle, parent, false))
 
     class VehicleLayoutManager(context: Context) : LinearLayoutManager(context) {
         override fun canScrollVertically(): Boolean {

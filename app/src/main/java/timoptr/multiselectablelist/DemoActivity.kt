@@ -1,8 +1,8 @@
 package timoptr.multiselectablelist
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_demo.*
 import timoptr.multiselectablelist.adapter.SelectableAdapter
 import timoptr.multiselectablelist.adapter.VehicleAdapter
@@ -26,7 +26,7 @@ class DemoActivity : AppCompatActivity() {
         listSingle.adapter = adapter
         listSingle.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listSingle.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter.setList(arrayListOf(
+        adapter.submitList(arrayListOf(
                 VehicleViewModel("3008"),
                 VehicleViewModel("C3"),
                 VehicleViewModel("Focus"),
@@ -41,7 +41,7 @@ class DemoActivity : AppCompatActivity() {
         listMulti.adapter = adapter
         listMulti.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listMulti.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter.setList(arrayListOf(
+        adapter.submitList(arrayListOf(
                 VehicleViewModel("R1", VehicleViewModel.Type.BIKE),
                 VehicleViewModel("Bandit", VehicleViewModel.Type.BIKE),
                 VehicleViewModel("Z1000", VehicleViewModel.Type.BIKE),

@@ -1,6 +1,6 @@
 package timoptr.multiselectablelist.viewmodel
 
-import android.databinding.ObservableBoolean
+import androidx.databinding.ObservableBoolean
 import timoptr.multiselectablelist.util.SelectableItem
 
 /**
