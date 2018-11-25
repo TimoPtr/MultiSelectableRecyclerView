@@ -1,1 +1,1 @@
-include(":app", ":multiselectablerecyclerview")
+include(":multiselectablerecyclerview", ":vehiclelist", ":githubexplorer")

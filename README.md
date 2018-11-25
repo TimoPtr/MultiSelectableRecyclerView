@@ -13,7 +13,6 @@
 - Move build script from app folder into buildSrc and create custom plugins
 - Publish the library
 - Add documentation
-- Create more samples (git explorer)
 
 I'm open to any suggestion of amelioration ! 
  

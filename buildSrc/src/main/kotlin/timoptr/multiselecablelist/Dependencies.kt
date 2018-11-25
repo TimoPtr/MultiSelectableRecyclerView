@@ -22,16 +22,16 @@ object Versions {
     const val lifecycleExtension = "2.0.0"
     const val archCoreTesting = "2.0.0"
     const val jUnit = "4.12"
-    const val rxKotlin = "2.2.0"
+    const val rxKotlin = "2.3.0"
     const val rxAndroid = "2.1.0"
-    const val rxJava = "2.2.3"
-    const val rxLint = "1.6.1"
-    const val retrofit = "2.4.0"
+    const val rxJava = "2.2.4"
+    const val rxLint = "1.7.1"
+    const val retrofit = "2.5.0"
     const val okhttp = "3.10.0"
     const val gson = "2.8.5"
     const val loggingInterceptor = "3.10.0"
     const val gsonConverter = "2.4.0"
-    const val leakCanary = "1.5.4"
+    const val leakCanary = "1.6.2"
 }
 
 object Libs {
