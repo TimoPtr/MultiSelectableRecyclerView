@@ -10,9 +10,7 @@
 # TODOs
 
 - Add tests
-- Refactor to remove ObservableBoolean
 - Move build script from app folder into buildSrc and create custom plugins
-- Extract adapter into a library
 - Publish the library
 - Add documentation
 - Create more samples (git explorer)
