@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="timoptr.multiselectablelist.viewmodel.VehicleViewModel.Type" />
+        <import type="timoptr.multiselectablelist.sample.viewmodel.VehicleViewModel.Type" />
 
         <variable
             name="viewModel"
-            type="timoptr.multiselectablelist.viewmodel.VehicleViewModel" />
+            type="timoptr.multiselectablelist.sample.viewmodel.VehicleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

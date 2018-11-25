@@ -38,6 +38,7 @@ dependencies {
     implementation(Libs.pagingLib)
     implementation(Libs.lifecycleRuntime)
     implementation(Libs.lifecycleExtension)
+    implementation(project(":multiselectablerecyclerview"))
 
     add("testImplementation" , Libs.jUnit)
     add("androidTestImplementation", Libs.testRunner)

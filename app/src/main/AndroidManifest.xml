@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="timoptr.multiselectablelist">
+    package="timoptr.multiselectablelist.sample">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".DemoActivity" >
+        <activity android:name="DemoActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
