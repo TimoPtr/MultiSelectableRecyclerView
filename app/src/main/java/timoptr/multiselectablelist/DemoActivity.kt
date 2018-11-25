@@ -2,21 +2,28 @@ package timoptr.multiselectablelist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_demo.*
 import timoptr.multiselectablelist.adapter.SelectableAdapter
 import timoptr.multiselectablelist.adapter.VehicleAdapter
-import timoptr.multiselectablelist.viewmodel.VehicleViewModel
+import timoptr.multiselectablelist.repository.VehicleRepositoryFake
+import timoptr.multiselectablelist.viewmodel.DemoViewModel
 
 /**
- * Created by timoptr on 03/12/2017.
+ * @author Nibeaudeau Timothy <timothy.nibeaudeau@gmail.com>
+ * @version 1.0
+ * on 03/12/2017 for MultiSelectableRecycleListView with IntelliJ IDEA.
  */
 class DemoActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: DemoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
-
+        viewModel = ViewModelProviders.of(this, DemoViewModel.Factory(VehicleRepositoryFake())).get(DemoViewModel::class.java)
         initListMulti()
         initListSingle()
     }
@@ -26,14 +33,9 @@ class DemoActivity : AppCompatActivity() {
         listSingle.adapter = adapter
         listSingle.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listSingle.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter.submitList(arrayListOf(
-                VehicleViewModel("3008"),
-                VehicleViewModel("C3"),
-                VehicleViewModel("Focus"),
-                VehicleViewModel("A1"),
-                VehicleViewModel("DS4"),
-                VehicleViewModel("Clio")
-        ))
+        viewModel.cars.observe(this, Observer { carsPagedList ->
+            adapter.submitList(carsPagedList)
+        })
     }
 
     private fun initListMulti() {
@@ -41,12 +43,8 @@ class DemoActivity : AppCompatActivity() {
         listMulti.adapter = adapter
         listMulti.layoutManager = VehicleAdapter.VehicleLayoutManager(this)
         listMulti.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter.submitList(arrayListOf(
-                VehicleViewModel("R1", VehicleViewModel.Type.BIKE),
-                VehicleViewModel("Bandit", VehicleViewModel.Type.BIKE),
-                VehicleViewModel("Z1000", VehicleViewModel.Type.BIKE),
-                VehicleViewModel("Speed triple", VehicleViewModel.Type.BIKE),
-                VehicleViewModel("MT07", VehicleViewModel.Type.BIKE)
-        ))
+        viewModel.motorcycles.observe(this, Observer { motorcyclePagedList ->
+            adapter.submitList(motorcyclePagedList)
+        })
     }
 }

@@ -6,6 +6,7 @@
 - Migration to Jetpack
 - Migration to KotlinDSL
 - Update of dependencies
+- Use PagedListAdapter instead of ListAdapter
 
 ### Deprecated
 

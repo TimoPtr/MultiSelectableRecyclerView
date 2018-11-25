@@ -36,6 +36,8 @@ dependencies {
     implementation(Libs.appCompatLib)
     implementation(Libs.constraintLayout)
     implementation(Libs.pagingLib)
+    implementation(Libs.lifecycleRuntime)
+    implementation(Libs.lifecycleExtension)
 
     add("testImplementation" , Libs.jUnit)
     add("androidTestImplementation", Libs.testRunner)
