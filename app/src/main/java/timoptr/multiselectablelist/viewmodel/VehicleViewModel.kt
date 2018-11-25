@@ -6,7 +6,8 @@ import timoptr.multiselectablelist.util.SelectableItem
 /**
  * Created by timothynibeaudeau on 03/12/2017.
  */
-class VehicleViewModel(val name: String, val type: Type = Type.CAR) : SelectableItem {
+class VehicleViewModel(override val id: Int, val name: String, val type: Type = Type.CAR) : SelectableItem {
+
     enum class Type {
         CAR,
         BIKE

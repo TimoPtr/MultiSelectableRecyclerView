@@ -11,7 +11,6 @@
 
 - Add tests
 - Refactor to remove ObservableBoolean
-- Handle configurationChanges
 - Move build script from app folder into buildSrc and create custom plugins
 - Extract adapter into a library
 - Publish the library

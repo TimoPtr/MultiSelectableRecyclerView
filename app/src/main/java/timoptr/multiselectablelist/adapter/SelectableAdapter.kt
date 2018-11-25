@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import timoptr.multiselectablelist.util.OnItemSelectedListener
 import timoptr.multiselectablelist.util.SelectableItem
 import timoptr.multiselectablelist.BR
@@ -17,8 +17,8 @@ import timoptr.multiselectablelist.BR
 
 /**
  * This Adapter is use to help us to create a list of selectable item it use :
- * - databinding you will have a boolean in your item, so you will have to specify the selected comportment in your XML
- * - [ListAdapter] to be able to use Livedata as data source and to be able to properly add data at different times
+ * - databinding you will have a Observable<boolean> in your item, so you will have to specify the selected comportment in your XML
+ * - [ListAdapter] to be able to use LiveData as data source and to be able to properly add data at different times
  *
  * To use this adapter you have to override/implement :
  * - override [onBindViewHolder] and call super.onBindViewHolder() after you set the item of the viewHolder
@@ -40,25 +40,25 @@ override fun areItemsTheSame(oldItem: T, newItem: T): Boolean =
 oldItem == newItem
 
 override fun areContentsTheSame(oldItem: T, newItem: T): Boolean =
-oldItem == newItem
+oldItem.id == newItem.id && oldItem.isSelected == newItem.isSelected
 }, selectionMode) {
 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectableViewHolderBinding = SelectableViewHolderBinding(DataBindingUtil.bind(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false))!!)
 }
  *
  */
-abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.SelectableViewHolder>(diffCallback: DiffUtil.ItemCallback<V> = object : DiffUtil.ItemCallback<V>() {
+abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.SelectableViewHolder<V>>(diffCallback: DiffUtil.ItemCallback<V> = object : DiffUtil.ItemCallback<V>() {
     override fun areItemsTheSame(oldItem: V, newItem: V): Boolean =
             oldItem == newItem
 
     override fun areContentsTheSame(oldItem: V, newItem: V): Boolean =
-            oldItem == newItem
-}, val selectionMode: Selection = Selection.MULTIPLE) : ListAdapter<V, VH>(diffCallback) {
+            oldItem.id == newItem.id && oldItem.isSelected == newItem.isSelected
+}, protected val selectionMode: Selection = Selection.MULTIPLE) : PagedListAdapter<V, VH>(diffCallback) {
 
     /**
      * Listener to listen on item selection, it's null by default replace by yours
      * if you want to be notify of selection, if you only want the selected items you can use [getSelectedItems]
      */
-    var itemSelectedListener: OnItemSelectedListener? = null
+    var itemSelectedListener: OnItemSelectedListener<V>? = null
 
     /**
      * Enum to expose the different mode available of Selection
@@ -68,14 +68,14 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
         SINGLE
     }
 
-    private val internalItemSelectionListener = object : OnItemSelectedListener {
-        override fun onItemSelected(item: SelectableItem) {
+    private val internalItemSelectionListener = object : OnItemSelectedListener<V> {
+        override fun onItemSelected(item: V) {
             //if single browse devices and set all items.isSelected = false
             if (selectionMode == Selection.SINGLE) {
                 (0 until itemCount)
                         .map { getItem(it) }
                         .filter { item != it }
-                        .forEach { it.isSelected.set(false) }
+                        .forEach { it?.isSelected?.set(false) }
             }
             itemSelectedListener?.onItemSelected(item)//Send outside of the adapter if need
         }
@@ -86,8 +86,7 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
      *
      * @return list of selected item, empty if no items selected
      */
-    fun getSelectedItems(): List<V> = (0 until itemCount)
-            .map { getItem(it) }.filter { it.isSelected.get() }
+    fun getSelectedItems(): List<V> = (0 until itemCount).mapNotNull { getItem(it) }.filter { it.isSelected.get() }
 
 
     /**
@@ -97,8 +96,9 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
      */
     override fun onBindViewHolder(holder: VH, position: Int) {
         if (position > -1) {
-            val item = getItem(position)
-            holder.bind(item, internalItemSelectionListener)
+            getItem(position)?.let { item ->
+                holder.bind(item, internalItemSelectionListener)
+            }
         }
     }
 
@@ -106,10 +106,10 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
      * Custom ViewHolder to be use in [SelectableAdapter]
      *
      */
-    open class SelectableViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    open class SelectableViewHolder<V : SelectableItem>(val view: View) : RecyclerView.ViewHolder(view) {
 
-        lateinit var item: SelectableItem
-        private lateinit var selectableListener: OnItemSelectedListener
+        lateinit var item: V
+        private lateinit var selectableListener: OnItemSelectedListener<V>
 
         init {
             view.setOnClickListener {
@@ -121,7 +121,7 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
         /**
          * Need to be call inside [onBindViewHolder] to enable selection
          */
-        internal open fun bind(item: SelectableItem, internalItemSelectionListener: OnItemSelectedListener) {
+        internal open fun bind(item: V, internalItemSelectionListener: OnItemSelectedListener<V>) {
             this.item = item
             selectableListener = internalItemSelectionListener
         }
@@ -132,11 +132,12 @@ abstract class SelectableAdapter<V : SelectableItem, VH : SelectableAdapter.Sele
      * Custom ViewHolder to be use in [SelectableAdapter] with Binding
      *
      */
-    open class SelectableViewHolderBinding(val binding: ViewDataBinding) : SelectableViewHolder(binding.root) {
+    open class SelectableViewHolderBinding<V : SelectableItem>(val binding: ViewDataBinding) : SelectableViewHolder<V>(binding.root) {
 
-        override fun bind(item: SelectableItem, internalItemSelectionListener: OnItemSelectedListener) {
+        override fun bind(item: V, internalItemSelectionListener: OnItemSelectedListener<V>) {
             super.bind(item, internalItemSelectionListener)
             binding.setVariable(BR.viewModel, item)
+            binding.executePendingBindings()
         }
     }
 
